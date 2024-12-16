@@ -11,6 +11,26 @@ const signUp = () => {
     const [Loading, setLoading] = useState(false);
     const [Error, setError] = useState('');
     const [success, setsuccess] = useState('red');
+    const [securePassword, setSecurePassword] = useState(true);
+    const [imagesrc, setimagesrc] = useState(require('../assets/images/hidden.png'));
+
+    const showpass = () => {
+        setSecurePassword(false);
+        setimagesrc(require('../assets/images/eye.png'));
+    };
+
+    const hidepass = () => {
+        setSecurePassword(true);
+        setimagesrc(require('../assets/images/hidden.png'));
+    };
+
+    const handlePlay = () => {
+        if (securePassword === true) {
+            showpass();
+        } else {
+            hidepass();
+        }
+    };
 
     const handlesignup = async () => {
         if (!Name || !Email || !Password) {
@@ -49,7 +69,7 @@ const signUp = () => {
                     <Text style={{ textAlign: 'center', color: success }}>{Error}</Text>
                     <TextInput inputMode='text' placeholder="Full Name" style={styles.input} autoCapitalize="words" value={Name} onChangeText={setName} />
                     <TextInput inputMode='email' placeholder="Enter your email" style={styles.input} autoCapitalize="none" value={Email} onChangeText={setEmail} />
-                    <TextInput inputMode='text' placeholder="Enter your password" secureTextEntry={true} style={styles.input} autoCapitalize="none" value={Password} onChangeText={setPassword} />
+                    <View style={{ flexDirection: 'row' }}><TouchableOpacity onPress={handlePlay} style={{ position: 'absolute', right: 30, top: 17, zIndex: 2 }}><Image source={imagesrc} style={styles.passVisibilityimg} /></TouchableOpacity><TextInput inputMode="text" secureTextEntry={securePassword} placeholder="Enter your password" autoCapitalize="none" style={styles.input} value={Password} onChangeText={setPassword} /></View>
                     <TouchableOpacity style={styles.button} onPress={handlesignup}>{Loading ? <ActivityIndicator size={27} color='white' /> : <Text style={styles.buttontext}>SIGN UP</Text>}</TouchableOpacity>
                 </View>
             </ScrollView>
@@ -66,6 +86,10 @@ const styles = StyleSheet.create({
     image: {
         width: 300,
         height: 200,
+    },
+    passVisibilityimg: {
+        width: 28,
+        height: 28
     },
     heading: {
         fontWeight: 'bold',
