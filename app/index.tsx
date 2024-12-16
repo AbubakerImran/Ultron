@@ -8,7 +8,7 @@ const main = () => {
             <StatusBar backgroundColor='white' barStyle='dark-content' />
             <View>
                 <Image source={require('../assets/images/main icon.jpg')} style={styles.image} resizeMode="center" />
-                <TouchableOpacity style={styles.loginbutton}><Text style={styles.logintext}>LOG IN</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.loginbutton} onPress={() => { router.navigate('/login') }}><Text style={styles.logintext}>LOG IN</Text></TouchableOpacity>
                 <TouchableOpacity style={styles.signupbutton} onPress={() => { router.navigate('/signup') }}><Text style={styles.signuptext}>SIGN UP</Text></TouchableOpacity>
             </View>
         </SafeAreaView>

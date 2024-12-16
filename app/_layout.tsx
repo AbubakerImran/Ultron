@@ -30,6 +30,7 @@ const RootLayout = () => {
         }}>
             <Stack.Screen name="index" options={{ title: 'Ultron' }} />
             <Stack.Screen name="signup" options={{ headerTitle: '' }} />
+            <Stack.Screen name="login" options={{ headerTitle: '' }} />
         </Stack>
     );
 };
