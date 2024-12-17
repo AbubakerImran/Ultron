@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: 'blue',
         paddingVertical: 10,
-        width: 250,
+        width: 190,
         marginHorizontal: 'auto',
         marginVertical: 10
     },
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: 'blue',
         paddingVertical: 10,
-        width: 250,
+        width: 190,
         marginHorizontal: 'auto',
         marginVertical: 10
     },
