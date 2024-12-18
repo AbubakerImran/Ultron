@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import React, { useState } from "react";
@@ -45,6 +46,8 @@ const logIn = () => {
                     if (userData.Password === Password) {
                         setError('Successfully logged in');
                         setsuccess('green');
+                        router.replace('/tabs/home');
+                        const user = User;
                     } else {
                         setError('Incorrect password');
                         setsuccess('red');
