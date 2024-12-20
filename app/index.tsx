@@ -21,7 +21,7 @@ const main = () => {
 
     if (Loading) {
         return (
-            <SafeAreaView style={{ backgroundColor: 'white' }}>
+            <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
                 <StatusBar backgroundColor='white' barStyle='dark-content' />
             </SafeAreaView>
         );
