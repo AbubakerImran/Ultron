@@ -8,6 +8,7 @@ const signUp = () => {
     const [Name, setName] = useState('');
     const [Email, setEmail] = useState('');
     const [Password, setPassword] = useState('');
+    const [Phone, setPhone] = useState('');
     const [Loading, setLoading] = useState(false);
     const [Error, setError] = useState('');
     const [success, setsuccess] = useState('red');
@@ -33,7 +34,7 @@ const signUp = () => {
     };
 
     const handlesignup = async () => {
-        if (!Name || !Email || !Password) {
+        if (!Name || !Email || !Password || !Phone) {
             setError('All Fields are required');
         } else {
             try {
@@ -45,7 +46,7 @@ const signUp = () => {
                     setError("User already exist with this email");
                     setsuccess("red");
                 } else {
-                    await setDoc(doc(db, "users", Email), { Name, Email, Password });
+                    await setDoc(doc(db, "users", Email), { Name, Email, Password, Phone });
                     setError('Account successfully created');
                     setsuccess('green');
                 }
@@ -62,13 +63,14 @@ const signUp = () => {
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <StatusBar backgroundColor='white' barStyle='dark-content' />
-                <View>
+                <View style={{ justifyContent: 'center' }}>
                     <Image source={require('../assets/images/signup icon.jpg')} style={styles.image} resizeMode="center" />
                     <Text style={styles.heading}>Hi!</Text>
                     <Text style={styles.heading2}>Create a new account</Text>
                     <Text style={{ textAlign: 'center', color: success }}>{Error}</Text>
                     <TextInput inputMode='text' placeholder="Full Name" style={styles.input} autoCapitalize="words" value={Name} onChangeText={setName} />
                     <TextInput inputMode='email' placeholder="Enter your email" style={styles.input} autoCapitalize="none" value={Email} onChangeText={setEmail} />
+                    <TextInput inputMode='tel' placeholder="Enter your phone" style={styles.input} autoCapitalize="none" value={Phone} onChangeText={setPhone} />
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}><TouchableOpacity onPress={handlePlay} style={{ position: 'absolute', right: 30, top: 17, zIndex: 2 }}><Image source={imagesrc} style={styles.passVisibilityimg} /></TouchableOpacity><TextInput inputMode="text" secureTextEntry={securePassword} placeholder="Enter your password" autoCapitalize="none" style={styles.input} value={Password} onChangeText={setPassword} /></View>
                     <TouchableOpacity style={styles.button} onPress={handlesignup}>{Loading ? <ActivityIndicator size={27} color='white' /> : <Text style={styles.buttontext}>SIGN UP</Text>}</TouchableOpacity>
                 </View>
@@ -82,7 +84,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         backgroundColor: 'white',
-        justifyContent: 'center'
     },
     image: {
         width: 300,
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
         width: 150,
         paddingVertical: 10,
         alignSelf: 'center',
-        marginVertical: 50
+        marginVertical: 20
     },
     buttontext: {
         color: 'white',
