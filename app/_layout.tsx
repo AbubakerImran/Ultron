@@ -4,8 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 const RootLayout = () => {
 
-    const back = router
-
     return (
         <Stack screenOptions={{
             headerShadowVisible: false,
@@ -21,7 +19,7 @@ const RootLayout = () => {
             headerLeft: ({ canGoBack }) => (
                 canGoBack && (
                     <TouchableOpacity
-                        onPress={() => back.back()}
+                        onPress={() => router.back()}
                         style={{ flexDirection: 'row', alignItems: 'center', padding: 10, marginTop: 10 }}>
                         <Ionicons name="arrow-back" size={30} color="black" />
                     </TouchableOpacity>
