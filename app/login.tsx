@@ -43,14 +43,8 @@ const logIn = () => {
                 const User = await getDoc(doc(db, "users", Email));
                 if (User.exists()) {
                     const userData = User.data();
-                    const Name = userData.Name;
                     if (userData.Password === Password) {
-                        const saveData = {
-                            name: Name,
-                            email: Email,
-                            password: Password
-                        }
-                        await AsyncStorage.setItem("loggedInUser", JSON.stringify(saveData));
+                        await AsyncStorage.setItem("loggedInUser", JSON.stringify(Email));
                         router.replace('/tabs/home');
                     } else {
                         setError('Incorrect password');
@@ -73,7 +67,7 @@ const logIn = () => {
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <StatusBar barStyle='dark-content' backgroundColor='white' />
-                <View>
+                <View style={{ justifyContent: 'center' }}>
                     <Image source={require('../assets/images/login icon.jpg')} style={styles.image} resizeMode="center" />
                     <Text style={styles.heading}>WELCOME!</Text>
                     <Text style={styles.heading2}>Log in to continue</Text>
@@ -91,7 +85,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
         backgroundColor: 'white'
     },
     image: {
