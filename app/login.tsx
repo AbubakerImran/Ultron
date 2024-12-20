@@ -3,6 +3,7 @@ import { db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, View, Image, Text, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const logIn = () => {
 
@@ -44,10 +45,13 @@ const logIn = () => {
                 if (User.exists()) {
                     const userData = User.data();
                     if (userData.Password === Password) {
-                        setError('Successfully logged in');
-                        setsuccess('green');
+                        const dataToSave = {
+                            name: userData.Name,
+                            email: Email,
+                            password: Password
+                        }
+                        await AsyncStorage.setItem("loggedInUser", JSON.stringify(dataToSave));
                         router.replace('/tabs/home');
-                        const user = User;
                     } else {
                         setError('Incorrect password');
                         setsuccess('red');
