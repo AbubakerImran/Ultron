@@ -79,7 +79,7 @@ const logIn = () => {
                     <Text style={styles.heading2}>Log in to continue</Text>
                     <Text style={{ textAlign: 'center', color: success }}>{Error}</Text>
                     <TextInput inputMode='email' placeholder="Enter your email" style={styles.input} autoCapitalize="none" value={Email} onChangeText={setEmail} />
-                    <View style={{ flexDirection: 'row' }}><TouchableOpacity onPress={handlePlay} style={{ position: 'absolute', right: 30, top: 17, zIndex: 2 }}><Image source={imagesrc} style={styles.passVisibilityimg} /></TouchableOpacity><TextInput inputMode="text" secureTextEntry={securePassword} placeholder="Enter your password" autoCapitalize="none" style={styles.input} value={Password} onChangeText={setPassword} /></View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center' }}><TouchableOpacity onPress={handlePlay} style={{ position: 'absolute', right: 30, top: 17, zIndex: 2 }}><Image source={imagesrc} style={styles.passVisibilityimg} /></TouchableOpacity><TextInput inputMode="text" secureTextEntry={securePassword} placeholder="Enter your password" autoCapitalize="none" style={styles.input} value={Password} onChangeText={setPassword} /></View>
                     <TouchableOpacity style={styles.button} onPress={handlelogin} >{Loading ? <ActivityIndicator size={27} color='white' /> : <Text style={styles.buttontext}>LOG IN</Text>}</TouchableOpacity>
                 </View>
             </ScrollView>
