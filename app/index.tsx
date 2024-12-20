@@ -1,8 +1,20 @@
 import { router } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, View, Text, Image, Dimensions } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const main = () => {
+
+    useEffect(() => {
+        const checkLoggedIn = async () => {
+            const loggedInUser = await AsyncStorage.getItem("loggedInUser");
+            if (loggedInUser) {
+                router.replace("/tabs/home");
+            }
+        };
+        checkLoggedIn();
+    }, []);
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor='white' barStyle='dark-content' />
