@@ -17,7 +17,7 @@ const home = () => {
     );
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
+            <StatusBar backgroundColor='white' barStyle='dark-content' />
             <View>
                 <Text style={styles.text}>Home Screen</Text>
             </View>

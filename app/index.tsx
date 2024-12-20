@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         borderColor: 'blue',
         paddingVertical: 10,
         width: 190,
-        marginHorizontal: 'auto',
+        alignSelf: 'center',
         marginVertical: 10
     },
     signupbutton: {
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         borderColor: 'blue',
         paddingVertical: 10,
         width: 190,
-        marginHorizontal: 'auto',
+        alignSelf: 'center',
         marginVertical: 10
     },
     logintext: {

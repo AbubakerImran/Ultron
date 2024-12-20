@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     input: {
         borderBottomWidth: 3,
         borderBottomColor: 'grey',
-        marginHorizontal: 'auto',
+        alignSelf: 'center',
         marginVertical: 10,
         width: 250,
         padding: 10
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         borderRadius: 7,
         width: 150,
         paddingVertical: 10,
-        marginHorizontal: 'auto',
+        alignSelf: 'center',
         marginVertical: 50
     },
     buttontext: {
