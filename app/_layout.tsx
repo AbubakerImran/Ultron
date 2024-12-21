@@ -8,10 +8,6 @@ const RootLayout = () => {
             headerStyle: {
                 backgroundColor: 'white',
             },
-            headerTitleStyle: {
-                fontSize: 30,
-                fontWeight: 'bold'
-            },
             animation: 'slide_from_right',
         }}>
             <Stack.Screen name="index" options={{ headerShown: false }} />

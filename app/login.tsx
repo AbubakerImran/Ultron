@@ -38,21 +38,25 @@ const logIn = () => {
             setError('All fields are required');
         } else {
             try {
-                setError('');
-                setLoading(true);
-                const User = await getDoc(doc(db, "users", Email));
-                if (User.exists()) {
-                    const userData = User.data();
-                    if (userData.Password === Password) {
-                        await AsyncStorage.setItem("loggedInUser", JSON.stringify(Email));
-                        router.replace('/tabs/home');
+                const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!emailPattern.test(Email)) {
+                    setError("Please enter a valid email address");
+                } else {
+                    setError('');
+                    setLoading(true);
+                    const User = await getDoc(doc(db, "users", Email));
+                    if (User.exists()) {
+                        if (User.data().Password === Password) {
+                            await AsyncStorage.setItem("loggedInUser", JSON.stringify(Email));
+                            router.replace('/tabs/home');
+                        } else {
+                            setError('Incorrect password');
+                            setsuccess('red');
+                        }
                     } else {
-                        setError('Incorrect password');
+                        setError('User does not exist. Create a new account');
                         setsuccess('red');
                     }
-                } else {
-                    setError('User does not exist. Create a new account');
-                    setsuccess('red');
                 }
             } catch (e) {
                 console.log(e);

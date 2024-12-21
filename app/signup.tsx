@@ -26,7 +26,7 @@ const signUp = () => {
     };
 
     const handlePlay = () => {
-        if (securePassword === true) {
+        if (securePassword) {
             showpass();
         } else {
             hidepass();
@@ -38,17 +38,30 @@ const signUp = () => {
             setError('All Fields are required');
         } else {
             try {
-                setError('');
-                setLoading(true);
-                const checkUser = doc(db, "users", Email);
-                const User = await getDoc(checkUser);
-                if (User.exists()) {
-                    setError("User already exist with this email");
-                    setsuccess("red");
+                const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
+                if (!emailPattern.test(Email)) {
+                    setError("Please enter a valid email address");
                 } else {
-                    await setDoc(doc(db, "users", Email), { Name, Email, Password, Phone });
-                    setError('Account successfully created');
-                    setsuccess('green');
+                    const phonePattern = /^[0-9]{11}$/;
+                    if (!phonePattern.test(Phone)) {
+                        setError("Enter valid number with country code.")
+                    } else {
+                        if (Password.length < 8) {
+                            setError("Password must be at least 8 characters long");
+                        } else {
+                            setError('');
+                            setLoading(true);
+                            const User = await getDoc(doc(db, "users", Email));
+                            if (User.exists()) {
+                                setError("User already exist with this email");
+                                setsuccess("red");
+                            } else {
+                                await setDoc(doc(db, "users", Email), { Name, Email, Password, Phone });
+                                setError('Account successfully created');
+                                setsuccess('green');
+                            }
+                        }
+                    }
                 }
             } catch (e) {
                 console.log(e);
