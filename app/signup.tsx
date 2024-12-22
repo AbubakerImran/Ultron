@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View, Image, ScrollView, ActivityIndicator } from "react-native";
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 
 const signUp = () => {
 
@@ -56,16 +57,29 @@ const signUp = () => {
                                 setError("User already exist with this email");
                                 setsuccess("red");
                             } else {
-                                await setDoc(doc(db, "users", Email), { Name, Email, Password, Phone });
+                                await createUserWithEmailAndPassword(auth, Email, Password);
+                                const userId = auth.currentUser?.uid;
+                                await setDoc(doc(db, "users", userId), { Name, Email, Phone });
+                                await signOut(auth);
                                 setError('Account successfully created');
                                 setsuccess('green');
                             }
                         }
                     }
                 }
-            } catch (e) {
-                console.log(e);
-                setError('Error creating account. Try again later');
+            } catch (error) {
+                if (error.code === "auth/email-already-in-use") {
+                    setError("Account already exist with this email");
+                    setsuccess("red")
+                } else {
+                    if (error.code === 'auth/network-request-failed') {
+                        setError('Please check your internet connection and try again.');
+                        setsuccess("red")
+                    } else {
+                        setError('Error creating account. Try again later');
+                        setsuccess('red');
+                    }
+                }
             } finally {
                 setLoading(false);
             }
