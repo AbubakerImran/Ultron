@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { signOut } from "firebase/auth";
@@ -8,6 +8,7 @@ import { auth } from "../../firebase";
 const profile = () => {
 
     const [userData, setUserData] = useState(null);
+    const [Loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchUserEmail = async () => {
@@ -20,9 +21,13 @@ const profile = () => {
     }, []);
 
     const logout = async () => {
-        await AsyncStorage.removeItem('loggedInUser');
-        await signOut(auth);
-        router.replace('/');
+        setLoading(true);
+        setTimeout(async () => {
+            await AsyncStorage.removeItem('loggedInUser');
+            await signOut(auth);
+            setLoading(false)
+            router.replace('/');
+        }, 1000);
     };
 
     return (
@@ -32,7 +37,7 @@ const profile = () => {
                 <Text style={styles.text}>Name: {userData?.Name}</Text>
                 <Text style={styles.text}>Email: {userData?.Email}</Text>
                 <Text style={styles.text}>Phone: {userData?.Phone}</Text>
-                <TouchableOpacity onPress={logout} style={styles.button}><Text style={styles.logouttext}>Logout</Text></TouchableOpacity>
+                <TouchableOpacity onPress={logout} style={styles.button}>{Loading ? <ActivityIndicator color='white' size={26} /> : <Text style={styles.logouttext}>Logout</Text>}</TouchableOpacity>
             </View>
         </SafeAreaView >
     )

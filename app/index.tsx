@@ -16,7 +16,7 @@ const main = () => {
                 setLoading(false);
             }
         };
-        const timeOut = setTimeout(checkLoggedIn, 3000);
+        const timeOut = setTimeout(checkLoggedIn, 1500);
         return () => clearTimeout(timeOut);
     }, []);
 
