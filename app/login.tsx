@@ -1,9 +1,10 @@
-import { router } from "expo-router";
-import { db } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, View, Image, Text, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
+import { db, auth } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const logIn = () => {
 
@@ -44,23 +45,25 @@ const logIn = () => {
                 } else {
                     setError('');
                     setLoading(true);
-                    const User = await getDoc(doc(db, "users", Email));
-                    if (User.exists()) {
-                        if (User.data().Password === Password) {
-                            await AsyncStorage.setItem("loggedInUser", JSON.stringify(Email));
-                            router.replace('/tabs/home');
-                        } else {
-                            setError('Incorrect password');
-                            setsuccess('red');
-                        }
-                    } else {
-                        setError('User does not exist. Create a new account');
-                        setsuccess('red');
-                    }
+                    await signInWithEmailAndPassword(auth, Email, Password);
+                    const userId = auth.currentUser?.uid;
+                    const userData = await getDoc(doc(db, "users", userId));
+                    const data = userData.data();
+                    const saveData = {
+                        Email: data?.Email,
+                        Phone: data?.Phone,
+                        Name: data?.Name
+                    };
+                    await AsyncStorage.setItem("loggedInUser", JSON.stringify(saveData));
+                    router.replace('/tabs/home');
                 }
-            } catch (e) {
-                console.log(e);
-                setError('Unknown error. Try again later');
+            } catch (error) {
+                if (error.code === "auth/invalid-credential") {
+                    setError("Email or password is invalid.")
+                } else {
+                    console.log(error);
+                    setError('Unknown error. Try again later');
+                }
             } finally {
                 setLoading(false);
             }
