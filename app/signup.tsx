@@ -58,8 +58,7 @@ const signUp = () => {
                                 setsuccess("red");
                             } else {
                                 await createUserWithEmailAndPassword(auth, Email, Password);
-                                const userId = auth.currentUser?.uid;
-                                await setDoc(doc(db, "users", userId), { Name, Email, Phone });
+                                await setDoc(doc(db, "users", Email), { Name, Email, Phone });
                                 await signOut(auth);
                                 setError('Account successfully created');
                                 setsuccess('green');
