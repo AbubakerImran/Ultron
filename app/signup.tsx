@@ -36,31 +36,31 @@ const signUp = () => {
 
     const handlesignup = async () => {
         if (!Name || !Email || !Password || !Phone) {
-            setError('All Fields are required');
+            setError('All Fields are required.');
         } else {
             try {
                 const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
                 if (!emailPattern.test(Email)) {
-                    setError("Please enter a valid email address");
+                    setError("Please enter a valid email address.");
                 } else {
                     const phonePattern = /^[0-9]{11}$/;
                     if (!phonePattern.test(Phone)) {
                         setError("Enter valid number with country code.")
                     } else {
                         if (Password.length < 8) {
-                            setError("Password must be at least 8 characters long");
+                            setError("Password must be at least 8 characters long.");
                         } else {
                             setError('');
                             setLoading(true);
                             const User = await getDoc(doc(db, "users", Email));
                             if (User.exists()) {
-                                setError("User already exist with this email");
+                                setError("User already exist with this email.");
                                 setsuccess("red");
                             } else {
                                 await createUserWithEmailAndPassword(auth, Email, Password);
                                 await setDoc(doc(db, "users", Email), { Name, Email, Phone });
                                 await signOut(auth);
-                                setError('Account successfully created');
+                                setError('Account successfully created.');
                                 setsuccess('green');
                             }
                         }
@@ -68,14 +68,14 @@ const signUp = () => {
                 }
             } catch (error) {
                 if (error.code === "auth/email-already-in-use") {
-                    setError("Account already exist with this email");
+                    setError("Account already exist with this email.");
                     setsuccess("red")
                 } else {
                     if (error.code === 'auth/network-request-failed') {
                         setError('Please check your internet connection and try again.');
                         setsuccess("red")
                     } else {
-                        setError('Error creating account. Try again later');
+                        setError('Error creating account. Try again later.');
                         setsuccess('red');
                     }
                 }

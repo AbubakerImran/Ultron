@@ -41,7 +41,7 @@ const logIn = () => {
             try {
                 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
                 if (!emailPattern.test(Email)) {
-                    setError("Please enter a valid email address");
+                    setError("Please enter a valid email address.");
                 } else {
                     setError('');
                     setLoading(true);
@@ -61,7 +61,7 @@ const logIn = () => {
                     setError("Email or password is invalid.")
                 } else {
                     console.log(error);
-                    setError('Unknown error. Try again later');
+                    setError('Unknown error. Try again later.');
                 }
             } finally {
                 setLoading(false);

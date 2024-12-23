@@ -1,4 +1,3 @@
-import { router } from "expo-router";
 import React, { useEffect } from "react";
 import { BackHandler, SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
 

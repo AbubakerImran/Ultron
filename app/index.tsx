@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, View, Text, Image, Dimensions } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, View, Text, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const main = () => {
