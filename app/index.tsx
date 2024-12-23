@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, View, Text, Image } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, View, Text, Image, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const main = () => {
@@ -16,13 +16,15 @@ const main = () => {
                 setLoading(false);
             }
         };
-        checkLoggedIn();
+        const timeOut = setTimeout(checkLoggedIn, 3000);
+        return () => clearTimeout(timeOut);
     }, []);
 
     if (Loading) {
         return (
-            <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
+            <SafeAreaView style={{ backgroundColor: 'white', flex: 1, justifyContent: 'center' }}>
                 <StatusBar backgroundColor='white' barStyle='dark-content' />
+                <ActivityIndicator color='black' size={50} />
             </SafeAreaView>
         );
     }
