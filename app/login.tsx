@@ -4,7 +4,7 @@ import { db, auth } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 const logIn = () => {
 
@@ -45,20 +45,29 @@ const logIn = () => {
                 } else {
                     setError('');
                     setLoading(true);
-                    await signInWithEmailAndPassword(auth, Email, Password);
-                    const userData = await getDoc(doc(db, "users", Email));
-                    const data = userData.data();
-                    const saveData = {
-                        Email: data?.Email,
-                        Phone: data?.Phone,
-                        Name: data?.Name
-                    };
-                    await AsyncStorage.setItem("loggedInUser", JSON.stringify(saveData));
-                    router.replace('/tabs/home');
+                    const user = await getDoc(doc(db, "users", Email));
+                    if (user.exists()) {
+                        await signInWithEmailAndPassword(auth, Email, Password);
+                        if (auth.currentUser?.emailVerified) {
+                            const data = user.data();
+                            const saveData = {
+                                Email: data?.Email,
+                                Phone: data?.Phone,
+                                Name: data?.Name
+                            };
+                            await AsyncStorage.setItem("loggedInUser", JSON.stringify(saveData));
+                            router.replace('/tabs/home');
+                        } else {
+                            await signOut(auth);
+                            setError("Please verify your email.");
+                        }
+                    } else {
+                        setError('User does not exist with this email.')
+                    }
                 }
             } catch (error) {
                 if (error.code === "auth/invalid-credential") {
-                    setError("Email or password is invalid.")
+                    setError("Incorrect password. Try again or reset your password.")
                 } else {
                     console.log(error);
                     setError('Unknown error. Try again later.');
@@ -74,9 +83,11 @@ const logIn = () => {
             <ScrollView showsVerticalScrollIndicator={false}>
                 <StatusBar barStyle='dark-content' backgroundColor='white' />
                 <View style={{ justifyContent: 'center' }}>
-                    <Image source={require('../assets/images/login icon.jpg')} style={styles.image} resizeMode="center" />
-                    <Text style={styles.heading}>WELCOME!</Text>
-                    <Text style={styles.heading2}>Log in to continue</Text>
+                    <View style={{ alignSelf: 'center' }}>
+                        <Image source={require('../assets/images/login icon.jpg')} style={styles.image} resizeMode="center" />
+                        <Text style={styles.heading}>WELCOME!</Text>
+                        <Text style={styles.heading2}>Log in to continue</Text>
+                    </View>
                     <Text style={{ textAlign: 'center', color: success }}>{Error}</Text>
                     <View style={{ alignSelf: 'center' }}>
                         <TextInput inputMode='email' placeholder="Enter your email" style={styles.input} autoCapitalize="none" value={Email} onChangeText={setEmail} />
@@ -107,7 +118,7 @@ const styles = StyleSheet.create({
     heading: {
         fontWeight: 'bold',
         fontSize: 38,
-        marginBottom: 10
+        marginBottom: 10,
     },
     heading2: {
         fontWeight: '500',

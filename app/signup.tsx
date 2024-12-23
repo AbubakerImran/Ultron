@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View, Image, ScrollView, ActivityIndicator } from "react-native";
 import { db, auth } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
 
 const signUp = () => {
 
@@ -58,6 +58,8 @@ const signUp = () => {
                                 setsuccess("red");
                             } else {
                                 await createUserWithEmailAndPassword(auth, Email, Password);
+                                const user = auth.currentUser;
+                                await sendEmailVerification(user);
                                 await setDoc(doc(db, "users", Email), { Name, Email, Phone });
                                 await signOut(auth);
                                 setError('Account successfully created.');
