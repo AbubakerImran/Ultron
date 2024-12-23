@@ -46,8 +46,7 @@ const logIn = () => {
                     setError('');
                     setLoading(true);
                     await signInWithEmailAndPassword(auth, Email, Password);
-                    const userId = auth.currentUser?.uid;
-                    const userData = await getDoc(doc(db, "users", userId));
+                    const userData = await getDoc(doc(db, "users", Email));
                     const data = userData.data();
                     const saveData = {
                         Email: data?.Email,
@@ -79,8 +78,11 @@ const logIn = () => {
                     <Text style={styles.heading}>WELCOME!</Text>
                     <Text style={styles.heading2}>Log in to continue</Text>
                     <Text style={{ textAlign: 'center', color: success }}>{Error}</Text>
-                    <TextInput inputMode='email' placeholder="Enter your email" style={styles.input} autoCapitalize="none" value={Email} onChangeText={setEmail} />
-                    <View style={{ flexDirection: 'row', justifyContent: 'center' }}><TouchableOpacity onPress={handlePlay} style={{ position: 'absolute', right: 30, top: 17, zIndex: 2 }}><Image source={imagesrc} style={styles.passVisibilityimg} /></TouchableOpacity><TextInput inputMode="text" secureTextEntry={securePassword} placeholder="Enter your password" autoCapitalize="none" style={styles.input} value={Password} onChangeText={setPassword} /></View>
+                    <View style={{ alignSelf: 'center' }}>
+                        <TextInput inputMode='email' placeholder="Enter your email" style={styles.input} autoCapitalize="none" value={Email} onChangeText={setEmail} />
+                        <View style={{ flexDirection: 'row', justifyContent: 'center' }}><TouchableOpacity onPress={handlePlay} style={{ position: 'absolute', right: 10, top: 17, zIndex: 2 }}><Image source={imagesrc} style={styles.passVisibilityimg} /></TouchableOpacity><TextInput inputMode="text" secureTextEntry={securePassword} placeholder="Enter your password" autoCapitalize="none" style={styles.input} value={Password} onChangeText={setPassword} /></View>
+                        <TouchableOpacity style={styles.resetbutton} onPress={() => { router.navigate('/resetpassword') }}><Text style={styles.resettext}>Reset Password</Text></TouchableOpacity>
+                    </View>
                     <TouchableOpacity style={styles.button} onPress={handlelogin} >{Loading ? <ActivityIndicator size={27} color='white' /> : <Text style={styles.buttontext}>LOG IN</Text>}</TouchableOpacity>
                 </View>
             </ScrollView>
@@ -116,10 +118,16 @@ const styles = StyleSheet.create({
     input: {
         borderBottomWidth: 3,
         borderBottomColor: 'grey',
-        alignSelf: 'center',
         marginVertical: 10,
         width: 250,
         padding: 10
+    },
+    resetbutton: {
+        width: 102,
+        alignSelf: 'flex-end'
+    },
+    resettext: {
+        color: 'blue',
     },
     button: {
         backgroundColor: 'blue',
@@ -127,7 +135,7 @@ const styles = StyleSheet.create({
         width: 150,
         paddingVertical: 10,
         alignSelf: 'center',
-        marginVertical: 50
+        marginVertical: 30
     },
     buttontext: {
         color: 'white',
