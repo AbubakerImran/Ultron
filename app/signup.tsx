@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View, Image, ScrollView, ActivityIndicator } from "react-native";
 import { db, auth } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
+import PhoneInput from "react-native-phone-number-input";
 
 const signUp = () => {
 
@@ -15,6 +16,8 @@ const signUp = () => {
     const [success, setsuccess] = useState('red');
     const [securePassword, setSecurePassword] = useState(true);
     const [imagesrc, setimagesrc] = useState(require('../assets/images/hidden.png'));
+    
+    const phoneInput = useRef<PhoneInput>(null);
 
     const showpass = () => {
         setSecurePassword(false);
@@ -43,10 +46,11 @@ const signUp = () => {
                 if (!emailPattern.test(Email)) {
                     setError("Please enter a valid email address.");
                 } else {
-                    const phonePattern = /^[0-9]{11}$/;
-                    if (!phonePattern.test(Phone)) {
-                        setError("Enter valid number with country code.")
+                    const checkValid = phoneInput.current?.isValidNumber(Phone) ?? false;
+                    if (!checkValid) {
+                        setError("Enter a valid number with this country code.");
                     } else {
+                        const Phone = phoneInput.current?.getNumberAfterPossiblyEliminatingZero();
                         if (Password.length < 8) {
                             setError("Password must be at least 8 characters long.");
                         } else {
@@ -98,7 +102,7 @@ const signUp = () => {
                     <Text style={{ textAlign: 'center', color: success }}>{Error}</Text>
                     <TextInput inputMode='text' placeholder="Full Name" style={styles.input} autoCapitalize="words" value={Name} onChangeText={setName} />
                     <TextInput inputMode='email' placeholder="Enter your email" style={styles.input} autoCapitalize="none" value={Email} onChangeText={setEmail} />
-                    <TextInput inputMode='tel' placeholder="Enter your phone" style={styles.input} autoCapitalize="none" value={Phone} onChangeText={setPhone} />
+                    <PhoneInput ref={phoneInput} defaultCode="PK" onChangeFormattedText={setPhone} layout="second" containerStyle={{width: 250, alignSelf: 'center', borderBottomWidth: 3, borderBottomColor: 'grey', marginBottom: 10, marginTop: 5}} textContainerStyle={{paddingVertical: 0, backgroundColor: 'white', paddingHorizontal: 0}} codeTextStyle={{width: 40, fontSize: 14}} countryPickerButtonStyle={{width: 80}} textInputStyle={{fontSize: 14}} />
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}><TouchableOpacity onPress={handlePlay} style={{ position: 'absolute', right: 30, top: 17, zIndex: 2 }}><Image source={imagesrc} style={styles.passVisibilityimg} /></TouchableOpacity><TextInput inputMode="text" secureTextEntry={securePassword} placeholder="Enter your password" autoCapitalize="none" style={styles.input} value={Password} onChangeText={setPassword} /></View>
                     <TouchableOpacity style={styles.button} onPress={handlesignup}>{Loading ? <ActivityIndicator size={27} color='white' /> : <Text style={styles.buttontext}>SIGN UP</Text>}</TouchableOpacity>
                 </View>
@@ -138,7 +142,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginVertical: 10,
         width: 250,
-        padding: 10
+        padding: 10,
     },
     button: {
         backgroundColor: 'blue',
