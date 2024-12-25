@@ -52,7 +52,7 @@ const logIn = () => {
                             const data = user.data();
                             const saveData = {
                                 Email: data?.Email,
-                                Phone: data?.Phone,
+                                Phone: data?.Phone?.formattedNumber,
                                 Name: data?.Name
                             };
                             await AsyncStorage.setItem("loggedInUser", JSON.stringify(saveData));
