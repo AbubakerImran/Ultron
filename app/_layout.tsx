@@ -15,6 +15,7 @@ const RootLayout = () => {
             <Stack.Screen name="login" options={{ headerTitle: '' }} />
             <Stack.Screen name="resetpassword" options={{ title: '' }} />
             <Stack.Screen name="tabs" options={{ headerShown: false }} />
+            <Stack.Screen name="(profile)" options={{headerShown: false}}/>
         </Stack>
     );
 };
