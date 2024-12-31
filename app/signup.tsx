@@ -56,22 +56,16 @@ const signUp = () => {
                         } else {
                             setError('');
                             setLoading(true);
-                            const User = await getDoc(doc(db, "users", Email));
-                            if (User.exists()) {
-                                setError("User already exist with this email.");
-                                setsuccess("red");
-                            } else {
-                                await createUserWithEmailAndPassword(auth, Email, Password);
-                                const user = auth.currentUser;
-                                await sendEmailVerification(user);
-                                await setDoc(doc(db, "users", Email), { Name, Email, Phone });
-                                await signOut(auth);
-                                setError('Account successfully created.');
-                                setsuccess('green');
-                            }
-                        }
-                    }
-                }
+                            await createUserWithEmailAndPassword(auth, Email, Password);
+                            const user = auth.currentUser;
+                            await sendEmailVerification(user);
+                            await setDoc(doc(db, "users", user?.uid), { Name, Email, Phone });
+                            await signOut(auth);
+                            setError('Account successfully created.');
+                            setsuccess('green');
+                        };
+                    };
+                };
             } catch (error) {
                 if (error.code === "auth/email-already-in-use") {
                     setError("Account already exist with this email.");
@@ -82,14 +76,15 @@ const signUp = () => {
                         setsuccess("red")
                     } else {
                         setError('Error creating account. Try again later.');
+                        console.log(error)
                         setsuccess('red');
-                    }
-                }
+                    };
+                };
             } finally {
                 setLoading(false);
-            }
+            };
         };
-    }
+    };
 
     return (
         <SafeAreaView style={styles.container}>

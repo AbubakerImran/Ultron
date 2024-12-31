@@ -45,29 +45,20 @@ const logIn = () => {
                 } else {
                     setError('');
                     setLoading(true);
-                    const user = await getDoc(doc(db, "users", Email));
-                    if (user.exists()) {
                         await signInWithEmailAndPassword(auth, Email, Password);
                         if (auth.currentUser?.emailVerified) {
-                            const data = user.data();
-                            const saveData = {
-                                Email: data?.Email,
-                                Phone: data?.Phone?.formattedNumber,
-                                Name: data?.Name
-                            };
-                            await AsyncStorage.setItem("loggedInUser", JSON.stringify(saveData));
+                            await AsyncStorage.setItem("loggedInUser", JSON.stringify(auth.currentUser.uid));
                             router.replace('/tabs/home');
                         } else {
                             await signOut(auth);
                             setError("Please verify your email.");
                         }
-                    } else {
-                        setError('User does not exist with this email.')
-                    }
                 }
             } catch (error) {
                 if (error.code === "auth/invalid-credential") {
-                    setError("Incorrect password. Try again or reset your password.")
+                    setError("Incorrect email or password.");
+                } else if (error.code === "auth/too-many-requests") {
+                    setError('Too many requests. Try again later.');
                 } else {
                     console.log(error);
                     setError('Unknown error. Try again later.');
