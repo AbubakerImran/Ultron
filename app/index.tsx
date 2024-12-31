@@ -24,7 +24,7 @@ const main = () => {
         return (
             <SafeAreaView style={{ backgroundColor: 'white', flex: 1, justifyContent: 'center' }}>
                 <StatusBar backgroundColor='white' barStyle='dark-content' />
-                <ActivityIndicator color='black' size={50} />
+                <ActivityIndicator color='blue' size={50} />
             </SafeAreaView>
         );
     }
