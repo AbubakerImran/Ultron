@@ -13,7 +13,7 @@ const personalinfo = () => {
     const [Email, setEmail] = useState(null);
     const [Phone, setPhone] = useState(null);
     const [Password, setPassword] = useState('');
-    const [NewPassword, setNewPassword] = useState(null);
+    const [NewPassword, setNewPassword] = useState('');
     const [securePassword, setSecurePassword] = useState(true);
     const [imagesrc, setimagesrc] = useState(require('../../assets/images/hidden.png'));
     const [buttonLoading, setbuttonLoading] = useState(false);
@@ -70,15 +70,20 @@ const personalinfo = () => {
                     updateDoc(doc(db, "users", userId), {
                         Name: Name,
                     } );
+                    setLoading(false);
                     setSuccess('green');
                     setError('Succesfully updated information.');
-                } else if(NewPassword) {
+                } else if(NewPassword.length < 8) {
+                    setLoading(false);
+                    setError('Password must be at least 8 characters long.');
+                } else {
                     updateDoc(doc(db, "users", userId), {
                         Name: Name,
                     });
+                    await updatePassword(user, NewPassword);
+                    setLoading(false);
                     setSuccess('green');
                     setError('Successfully updated information.');
-                    await updatePassword(user, NewPassword);
                 };
             } catch(error) {
                 if (error.code === "auth/invalid-credential") {
