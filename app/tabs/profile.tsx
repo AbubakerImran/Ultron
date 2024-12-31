@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { ActivityIndicator, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
+import { ActivityIndicator, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { signOut } from "firebase/auth";
@@ -7,37 +7,19 @@ import { auth } from "../../firebase";
 
 const profile = () => {
 
-    const [userData, setUserData] = useState(null);
-    const [Loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        const fetchUserEmail = async () => {
-            const loggedInUser = await AsyncStorage.getItem('loggedInUser');
-            if (loggedInUser) {
-                setUserData(JSON.parse(loggedInUser));
-            }
-        };
-        fetchUserEmail();
-    }, []);
-
     const logout = async () => {
-        setLoading(true);
-        setTimeout(async () => {
             await AsyncStorage.removeItem('loggedInUser');
             await signOut(auth);
-            setLoading(false)
             router.replace('/');
-        }, 1000);
-    };
+        };
 
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor='white' barStyle='dark-content' />
-            <View>
-                <Text style={styles.text}>Name: {userData?.Name}</Text>
-                <Text style={styles.text}>Email: {userData?.Email}</Text>
-                <Text style={styles.text}>Phone: {userData?.Phone}</Text>
-                <TouchableOpacity onPress={logout} style={styles.button}>{Loading ? <ActivityIndicator color='white' size={26} /> : <Text style={styles.logouttext}>Logout</Text>}</TouchableOpacity>
+            <Image source={require('../../assets/images/profile.png')} style={styles.image} resizeMode="center" />
+            <View style={styles.buttonview}>
+                <TouchableOpacity style={styles.button} onPress={() => {router.navigate('/(profile)/personalinfo')}}><Text style={styles.buttontext}>Personal Information</Text></TouchableOpacity>
+                <TouchableOpacity onPress={logout} style={styles.logoutbutton}><Text style={styles.logouttext}>Logout</Text></TouchableOpacity>
             </View>
         </SafeAreaView >
     )
@@ -46,36 +28,35 @@ const profile = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
         backgroundColor: 'white',
-        justifyContent: 'center'
     },
-    passVisibilityimg: {
-        width: 28,
-        height: 28
-    },
-    text: {
-        borderBottomWidth: 3,
-        borderBottomColor: 'grey',
+    image: {
+        width: 300,
+        height: 200,
         alignSelf: 'center',
-        marginVertical: 15,
-        width: 250,
-        padding: 5,
-        color: 'black'
+        marginTop: 30
     },
-    logouttext: {
-        fontWeight: 'bold',
+    buttonview: {
+        marginTop: 30
+    },
+    buttontext: {
         fontSize: 20,
-        textAlign: 'center',
-        color: 'white'
+        fontWeight: '500',
+        marginLeft: 20
     },
     button: {
-        backgroundColor: 'red',
-        borderRadius: 7,
-        width: 120,
-        paddingVertical: 7,
-        alignSelf: 'center',
-        marginVertical: 20
+        width: 208,
+        marginVertical: 10
+    },
+    logouttext: {
+        fontSize: 20,
+        fontWeight: '500',
+        marginLeft: 20,
+        color: 'red'
+    },
+    logoutbutton: {
+        width: 83,
+        marginVertical: 10,
     },
 });
 
