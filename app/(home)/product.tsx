@@ -6,8 +6,8 @@ const screenWidth = Dimensions.get('screen').width;
 
 const product = () => {
 
-    const image1 = require('../../assets/images/product1.jpg');
-    const image2 = require('../../assets/images/product2.jpg')
+    const image1 = require('../../assets/images/product1.png');
+    const image2 = require('../../assets/images/product2.png')
 
     const [image, setImage] = useState(image1);
     const [first, setFirst] = useState(true);
