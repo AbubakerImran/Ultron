@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View, Image, ScrollView, ActivityIndicator } from "react-native";
 import { db, auth } from "../firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
 import PhoneInput from "react-native-phone-number-input";
 
@@ -89,7 +89,7 @@ const signUp = () => {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <StatusBar backgroundColor='white' barStyle='dark-content' />
+                <StatusBar backgroundColor='blue' barStyle='light-content' />
                 <View style={{ justifyContent: 'center' }}>
                     <Image source={require('../assets/images/signup icon.jpg')} style={styles.image} resizeMode="center" />
                     <Text style={styles.heading}>Hi!</Text>

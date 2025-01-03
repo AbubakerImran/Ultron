@@ -4,7 +4,7 @@ import { SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
 const cart = () => {
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar backgroundColor='white' barStyle='dark-content' />
+            <StatusBar backgroundColor='blue' barStyle='light-content' />
             <View>
                 <Text style={styles.text}>Cart Screen</Text>
             </View>
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     text: {
         textAlign: 'center',
         fontSize: 30,
-        color: 'red'
+        color: 'blue'
     }
 });
 

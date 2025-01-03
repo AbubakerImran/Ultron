@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { SafeAreaView, StatusBar, StyleSheet, View, Text, TextInput, TouchableOpacity, Image, ScrollView, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "expo-router";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "@/firebase";
 import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
 
@@ -101,7 +101,7 @@ const personalinfo = () => {
     
     return(
         <SafeAreaView style={styles.container}>
-            <StatusBar backgroundColor='white' barStyle='dark-content'/>
+            <StatusBar backgroundColor='blue' barStyle='light-content'/>
             { Loading ?
             <ActivityIndicator color='blue' size={50}/> :
                 <ScrollView showsVerticalScrollIndicator={false}>

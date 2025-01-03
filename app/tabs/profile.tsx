@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ActivityIndicator, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { signOut } from "firebase/auth";
@@ -15,10 +15,11 @@ const profile = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar backgroundColor='white' barStyle='dark-content' />
+            <StatusBar backgroundColor='blue' barStyle='light-content' />
             <Image source={require('../../assets/images/profile.png')} style={styles.image} resizeMode="center" />
             <View style={styles.buttonview}>
                 <TouchableOpacity style={styles.button} onPress={() => {router.navigate('/(profile)/personalinfo')}}><Text style={styles.buttontext}>Personal Information</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => {}} ><Text style={styles.buttontext}>Favourites</Text></TouchableOpacity>
                 <TouchableOpacity onPress={logout} style={styles.logoutbutton}><Text style={styles.logouttext}>Logout</Text></TouchableOpacity>
             </View>
         </SafeAreaView >
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '500',
         marginLeft: 20,
-        color: 'red'
+        color: 'blue'
     },
     logoutbutton: {
         width: 83,

@@ -10,20 +10,23 @@ const TabLayout = () => {
             headerTitleStyle: {
                 fontWeight: 'bold',
                 fontSize: 24,
+                color: 'white'
             },
             headerStyle: {
                 borderBottomWidth: 0.5,
+                backgroundColor: 'blue'
             },
             tabBarStyle: {
                 elevation: 0,
                 shadowOpacity: 0,
                 borderTopWidth: 0.5,
                 height: 55,
+                backgroundColor: 'blue'
             },
             tabBarLabelStyle: {
                 marginBottom: 20,
                 fontSize: 12,
-                color: 'black'
+                color: 'white'
             },
             tabBarButton: (props) => (
                 <TouchableOpacity
@@ -34,9 +37,9 @@ const TabLayout = () => {
                 </TouchableOpacity>
             ),
         }}>
-            <Tabs.Screen name="home" options={{ title: 'Home', tabBarIcon: ({ focused }) => (<Ionicons name={focused ? "home" : "home-outline"} size={24} color="black" />) }} />
-            <Tabs.Screen name="cart" options={{ title: 'Cart', tabBarIcon: ({ focused }) => (<Ionicons name={focused ? "cart" : "cart-outline"} size={24} color="black" />) }} />
-            <Tabs.Screen name="profile" options={{ title: 'Profile', tabBarIcon: ({ focused }) => (<Ionicons name={focused ? "man" : "man-outline"} size={24} color="black" />) }} />
+            <Tabs.Screen name="home" options={{ title: 'Home', tabBarIcon: ({ focused }) => (<Ionicons name={focused ? "home" : "home-outline"} size={24} color="white" />) }} />
+            <Tabs.Screen name="cart" options={{ title: 'Cart', tabBarIcon: ({ focused }) => (<Ionicons name={focused ? "cart" : "cart-outline"} size={24} color="white" />) }} />
+            <Tabs.Screen name="profile" options={{ title: 'Profile', tabBarIcon: ({ focused }) => (<Ionicons name={focused ? "man" : "man-outline"} size={24} color="white" />) }} />
         </Tabs>
     )
 };

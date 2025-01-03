@@ -6,8 +6,9 @@ const RootLayout = () => {
         <Stack screenOptions={{
             headerShadowVisible: false,
             headerStyle: {
-                backgroundColor: 'white',
+                backgroundColor: 'blue',
             },
+            headerTintColor: 'white',
             animation: 'slide_from_right',
         }}>
             <Stack.Screen name="personalinfo" options={{ title: '' }} />

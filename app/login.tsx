@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, View, Image, Text, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
-import { db, auth } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { auth } from "../firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
@@ -12,7 +11,6 @@ const logIn = () => {
     const [Password, setPassword] = useState('');
     const [Loading, setLoading] = useState(false);
     const [Error, setError] = useState('')
-    const [success, setsuccess] = useState('red');
     const [securePassword, setSecurePassword] = useState(true);
     const [imagesrc, setimagesrc] = useState(require('../assets/images/hidden.png'));
 
@@ -72,14 +70,14 @@ const logIn = () => {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <StatusBar barStyle='dark-content' backgroundColor='white' />
+                <StatusBar barStyle='light-content' backgroundColor='blue' />
                 <View style={{ justifyContent: 'center' }}>
                     <View style={{ alignSelf: 'center' }}>
                         <Image source={require('../assets/images/login icon.jpg')} style={styles.image} resizeMode="center" />
                         <Text style={styles.heading}>WELCOME!</Text>
                         <Text style={styles.heading2}>Log in to continue</Text>
                     </View>
-                    <Text style={{ textAlign: 'center', color: success }}>{Error}</Text>
+                    <Text style={{ textAlign: 'center', color: 'red' }}>{Error}</Text>
                     <View style={{ alignSelf: 'center' }}>
                         <TextInput inputMode='email' placeholder="Enter your email" style={styles.input} autoCapitalize="none" value={Email} onChangeText={setEmail} />
                         <View style={{ flexDirection: 'row', justifyContent: 'center' }}><TouchableOpacity onPress={handlePlay} style={{ position: 'absolute', right: 10, top: 17, zIndex: 2 }}><Image source={imagesrc} style={styles.passVisibilityimg} /></TouchableOpacity><TextInput inputMode="text" secureTextEntry={securePassword} placeholder="Enter your password" autoCapitalize="none" style={styles.input} value={Password} onChangeText={setPassword} /></View>

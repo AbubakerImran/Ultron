@@ -23,7 +23,7 @@ const main = () => {
     if (Loading) {
         return (
             <SafeAreaView style={{ backgroundColor: 'white', flex: 1, justifyContent: 'center' }}>
-                <StatusBar backgroundColor='white' barStyle='dark-content' />
+                <StatusBar backgroundColor='blue' barStyle='light-content' />
                 <ActivityIndicator color='blue' size={50} />
             </SafeAreaView>
         );
@@ -31,7 +31,7 @@ const main = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar backgroundColor='white' barStyle='dark-content' />
+            <StatusBar backgroundColor='blue' barStyle='light-content' />
             <View>
                 <Image source={require('../assets/images/main icon.jpg')} style={styles.image} resizeMode="center" />
                 <TouchableOpacity style={styles.loginbutton} onPress={() => { router.navigate('/login') }}><Text style={styles.logintext}>LOG IN</Text></TouchableOpacity>
